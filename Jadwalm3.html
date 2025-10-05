@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Kelas X SIJA - Sistem Informasi Jaringan & Aplikasi</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #3b82f6;
+      --accent: #60a5fa;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --danger: #ef4444;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: var(--gradient);
+      color: white;
+      padding: 20px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-icon {
+      font-size: 32px;
+      margin-right: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .logo p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 2px;
+    }
+
+    .clock {
+      text-align: right;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 12px 18px;
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    #tanggal {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    #jam {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .nav-container {
+      background: white;
+      border-radius: var(--border-radius);
+      margin: 20px auto;
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .nav-tabs li {
+      margin: 0;
+    }
+
+    .nav-tabs a {
+      display: flex;
+      align-items: center;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      transition: var(--transition);
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-tabs a.active {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border-bottom: 3px solid white;
+    }
+
+    .nav-tabs a:hover {
+      background: #2563eb;
+      color: white;
+    }
+
+    .nav-tabs a i {
+      margin-right: 8px;
+      transition: var(--transition);
+    }
+
+    .nav-tabs a:hover i, .nav-tabs a.active i {
+      transform: scale(1.1);
+    }
+
+    .info-container {
+      margin: 20px auto;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border-left: 5px solid #2563eb;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-card h2 {
+      color: var(--dark);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .info-card h2 i {
+      margin-right: 10px;
+      color: #2563eb;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .info-item {
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      transition: var(--transition);
+      border-left: 3px solid #93c5fd;
+    }
+
+    .info-item:hover {
+      background: #f1f5f9;
+    }
+
+    .info-item strong {
+      color: var(--dark);
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .info-item span {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .schedule-day {
+      margin: 30px 0;
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+    }
+
+    .day-header h3 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .day-header i {
+      margin-right: 12px;
+      font-size: 24px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #2563eb;
+      color: white;
+      font-weight: 600;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .jadwal-spesial {
+     background-color: #e0f2fe;
+    }
+    .jadwal-istirahat {
+      background-color: #f0fdf4;
+    }
+
+    .jadwal-pulang {
+      background-color: #f8fafc;
+      font-weight: 600;
+    }
+
+    .jadwal-tadarus {
+      background-color: #fef7cd;
+    }
+
+    .jadwal-spesial-2 {
+      background-color: #dbeafe;
+    }
+
+    .Jadwal-Eskul {
+      background-color: #fef3c7;
+    }
+
+    .jadwal-Senam {
+      background-color: #fce7f3;
+    }
+    .jadwal-keputrian {
+  background-color: #f3e8ff;
+    }
+    tr:not(.jadwal-istirahat):not(.jadwal-pulang):hover {
+      background-color: #f8fafc;
+      transition: var(--transition);
+    }
+
+    .notes {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: var(--box-shadow);
+      border-left: 5px solid #2563eb;
+    }
+
+    .notes p {
+      margin: 0;
+      font-style: italic;
+      color: var(--gray);
+    }
+
+    .footer-note {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      text-align: center;
+      padding: 15px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      width: 0%;
+      z-index: 101;
+      transition: width 0.2s ease;
+    }
+
+    .current-day {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logo {
+        margin-bottom: 15px;
+      }
+      
+      .nav-tabs a {
+        padding: 12px 15px;
+        font-size: 14px;
+      }
+      
+      th, td {
+        padding: 10px 5px;
+        font-size: 14px;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .schedule-day {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .highlight-tech {
+      background: rgba(37, 99, 235, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"></div>
+  
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <i class="fas fa-laptop-code logo-icon"></i>
+        <div>
+          <h1>Jadwal Kelas X SIJA</h1>
+          <p>Sistem Informasi Jaringan & Aplikasi</p>
+        </div>
+      </div>
+      <div class="clock">
+        <div id="tanggal"></div>
+        <div id="jam"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="nav-container">
+      <ul class="nav-tabs">
+        <li><a href="#Senin" class="active"><i class="fas fa-code"></i> Senin</a></li>
+        <li><a href="#Selasa"><i class="fas fa-database"></i> Selasa</a></li>
+        <li><a href="#Rabu"><i class="fas fa-network-wired"></i> Rabu</a></li>
+        <li><a href="#Kamis"><i class="fas fa-microchip"></i> Kamis</a></li>
+        <li><a href="#Jumat"><i class="fas fa-server"></i> Jumat</a></li>
+      </ul>
+    </div>
+
+    <div class="info-container">
+      <div class="info-card">
+        <h2><i class="fas fa-exclamation-circle"></i> Informasi Hari Ini</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <strong><i class="fas fa-tshirt"></i> Seragam</strong>
+            <span id="seragam-info">-</span>
+          </div>
+          <div class="info-item">
+            <strong><i class="fas fa-book"></i> Jadwal Pelajaran</strong>
+            <span id="jadwal-info">-</span>
+          </div>
+          <div class="info-item">
+            <strong><i class="fas fa-broom"></i> Piket</strong>
+            <span id="piket-info">-</span>
+          </div>
+          <div class="info-item">
+            <strong><i class="fas fa-clock"></i> Status</strong>
+            <span id="status-info">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-content">
+      <!-- Senin -->
+      <div class="schedule-day" id="Senin">
+        <div class="day-header">
+          <i class="fas fa-code"></i>
+          <h3>Senin</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <tr>
+              <th>Jam Ke-</th>
+              <th>Waktu</th>
+              <th>Mata Pelajaran</th>
+              <th>Pengajar</th>
+              <th>Durasi</th>
+            </tr>
+            <tr class="jadwal-spesial">
+              <td>Upacara</td>
+              <td>07:00-07:40</td>
+              <td>-</td>
+              <td>-</td>
+              <td>40 Menit</td>
+            </tr>
+            <tr class="jadwal-spesial-2">
+              <td>Briefing</td>
+              <td>07:40-07:50</td>
+              <td>-</td>
+              <td>-</td>
+              <td>10 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>2-3</td>
+              <td>07:50-09:00</td>
+              <td>INF</td>
+              <td>Nur</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>09:00-09:35</td>
+              <td>B.IND</td>
+              <td>Endra</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>09:35-09:50</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>09:50-10:25</td>
+              <td>B.IND</td>
+              <td>Endra</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>6-7</td>
+              <td>10:25-11:35</td>
+              <td>DPK</td>
+              <td>Udin</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Ishoma</td>
+              <td>11:35-12:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>45 Menit</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>12:20-12:55</td>
+              <td>DPK</td>
+              <td>Udin</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>9-10</td>
+              <td>12:55-14:05</td>
+              <td>KKA</td>
+              <td>Atika</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>14:05-14:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>11-12</td>
+              <td>14:20-15:30</td>
+              <td>IPAS</td>
+              <td>Septi</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-pulang">
+              <td colspan="5">Pulang</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Selasa -->
+      <div class="schedule-day" id="Selasa">
+        <div class="day-header">
+          <i class="fas fa-database"></i>
+          <h3>Selasa</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <tr>
+              <th>Jam Ke-</th>
+              <th>Waktu</th>
+              <th>Mata Pelajaran</th>
+              <th>Pengajar</th>
+              <th>Durasi</th>
+            </tr>
+            <tr class="jadwal-tadarus">
+              <td>Tadarus AQ</td>
+              <td>07:00-07:15</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>1-2</td>
+              <td>07:15-08:25</td>
+              <td>SI</td>
+              <td>Sonef</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr>
+              <td>3-4</td>
+              <td>08:25-09:35</td>
+              <td>PPKN</td>
+              <td>Firman</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>09:35-09:50</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>5-6</td>
+              <td>09:50-11:00</td>
+              <td>IPAS</td>
+              <td>Septi</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>11:00-11:35</td>
+              <td>B.ING</td>
+              <td>Fifin</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Ishoma</td>
+              <td>11:35-12:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>45 Menit</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>12:20-12:55</td>
+              <td>B.ING</td>
+              <td>Fifin</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>12:55-13:30</td>
+              <td>BK</td>
+              <td>Faris</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>13:30-14:05</td>
+              <td>DPK</td>
+              <td>Nur</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>14:05-14:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>11-12</td>
+              <td>14:20-15:30</td>
+              <td>DPK</td>
+              <td>Nur</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-pulang">
+              <td colspan="5">Pulang</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Rabu -->
+      <div class="schedule-day" id="Rabu">
+        <div class="day-header">
+          <i class="fas fa-network-wired"></i>
+          <h3>Rabu</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <tr>
+              <th>Jam Ke-</th>
+              <th>Waktu</th>
+              <th>Mata Pelajaran</th>
+              <th>Pengajar</th>
+              <th>Durasi</th>
+            </tr>
+            <tr class="jadwal-tadarus">
+              <td>Tadarus AQ</td>
+              <td>07:00-07:15</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>1-2</td>
+              <td>07:15-08:25</td>
+              <td>B.IND</td>
+              <td>Endra</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr>
+              <td>3-4</td>
+              <td>08:25-09:35</td>
+              <td>B.ING</td>
+              <td>Fifin</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>09:35-09:50</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>5-6</td>
+              <td>09:50-11:00</td>
+              <td>INF</td>
+              <td>Nur</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>11:00-11:35</td>
+              <td>IPAS</td>
+              <td>Septi</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Ishoma</td>
+              <td>11:35-12:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>45 Menit</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>12:20-12:55</td>
+              <td>IPAS</td>
+              <td>Septi</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr>
+              <td>9-10</td>
+              <td>12:55-14:05</td>
+              <td>SB</td>
+              <td>Faris</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="Jadwal-Eskul">
+              <td colspan="5">Eskul Pilihan</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Kamis -->
+      <div class="schedule-day" id="Kamis">
+        <div class="day-header">
+          <i class="fas fa-microchip"></i>
+          <h3>Kamis</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <tr>
+              <th>Jam Ke-</th>
+              <th>Waktu</th>
+              <th>Mata Pelajaran</th>
+              <th>Pengajar</th>
+              <th>Durasi</th>
+            </tr>
+            <tr class="jadwal-Senam">
+              <td>Senam</td>
+              <td>07:00-07:15</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>1-3</td>
+              <td>07:15-09:00</td>
+              <td>DPK</td>
+              <td>Udin</td>
+              <td>105 Menit</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>09:00-09:35</td>
+              <td>MTK</td>
+              <td>Tuti</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>09:35-09:50</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>09:50-10:25</td>
+              <td>MTK</td>
+              <td>Tuti</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr>
+              <td>6-7</td>
+              <td>10:25-11:35</td>
+              <td>PJOK</td>
+              <td>Bagas</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Ishoma</td>
+              <td>11:35-12:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>45 Menit</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>12:20-12:55</td>
+              <td>PJOK</td>
+              <td>Bagas</td>
+              <td>35 Menit</td>
+            </tr>
+            <tr>
+              <td>9-10</td>
+              <td>12:55-14:05</td>
+              <td>BJ</td>
+              <td>Dhianis</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>14:05-14:20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr>
+              <td>11-12</td>
+              <td>14:20-15:30</td>
+              <td>MTK</td>
+              <td>Tuti</td>
+              <td>70 Menit</td>
+            </tr>
+            <tr class="jadwal-pulang">
+              <td colspan="5">Pulang</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Jumat -->
+      <div class="schedule-day" id="Jumat">
+        <div class="day-header">
+          <i class="fas fa-server"></i>
+          <h3>Jumat</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <tr>
+              <th>Jam Ke-</th>
+              <th>Waktu</th>
+              <th>Mata Pelajaran</th>
+              <th>Pengajar</th>
+              <th>Durasi</th>
+            </tr>
+            <tr class="jadwal-tadarus">
+              <td>Mujahadah</td>
+              <td>07:00-07:30</td>
+              <td>-</td>
+              <td>-</td>
+              <td>30 Menit</td>
+            </tr>
+            <tr>
+              <td>1-3</td>
+              <td>07:30-09:15</td>
+              <td>PABP</td>
+              <td>Yani</td>
+              <td>105 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>09:15-09:30</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="highlight-tech">
+              <td>4-6</td>
+              <td>09:30-11:15</td>
+              <td>DPK</td>
+              <td>Nur</td>
+              <td>105 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>11:15-11:30</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="jadwal-keputrian">
+               <td>Keputrian</td>
+               <td>11:30-12:15</td>
+               <td>-</td>
+               <td>-</td>
+               <td>45 Menit</td>
+            </tr>
+            <tr class="jadwal-istirahat">
+              <td>Istirahat</td>
+              <td>12:15-12:30</td>
+              <td>-</td>
+              <td>-</td>
+              <td>15 Menit</td>
+            </tr>
+            <tr class="Jadwal-Eskul">
+              <td colspan="5">Eskul Pramuka</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <p><strong>Catatan:</strong> Pramuka dilaksanakan 2 minggu sekali.</p>
+    </div>
+  </div>
+
+  <a href="#" class="scroll-top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <div class="footer-note">
+    <i class="fas fa-info-circle"></i> Untuk jadwal lengkap silakan scroll ke bawah
+  </div>
+
+  <script>
+    // Clock functionality
+    function updateClock() {
+      const now = new Date();
+      const hari = now.toLocaleDateString('id-ID', { weekday: 'long' });
+      const tanggal = now.getDate();
+      const bulan = now.toLocaleDateString('id-ID', { month: 'long' });
+      const tahun = now.getFullYear();
+      const jam = now.getHours().toString().padStart(2, '0');
+      const menit = now.getMinutes().toString().padStart(2, '0');
+      const detik = now.getSeconds().toString().padStart(2, '0');
+
+      document.getElementById('tanggal').textContent = `${hari}, ${tanggal} ${bulan} ${tahun}`;
+      document.getElementById('jam').textContent = `${jam}:${menit}:${detik}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Data
+    const data = {
+      1: { 
+        seragam: "OSIS", 
+        jadwal: "INF, B.IND, DPK, KKA, IPAS", 
+        piket: "Yahya, Azmi, Novi, Sofia, Nanda, Nunik, Reni",
+        status: "Hari aktif"
+      },
+      2: { 
+        seragam: "Identitas", 
+        jadwal: "SI, PPKN, IPAS, B.ING, BK, DPK", 
+        piket: "Auladi, Arka, Raa, Fitri, Mutia. Keysa, Zahra",
+        status: "Hari aktif"
+      },
+      3: { 
+        seragam: "Batik", 
+        jadwal: "B.IND, B.ING, INF, IPAS, SB", 
+        piket: "Gibran, Bayu, Selva, Yumna, chika, Tasya, Olifia",
+        status: "Hari aktif"
+      },
+      4: { 
+        seragam: "OSIS", 
+        jadwal: "DPK, MTK, PJOK, BJ, MTK", 
+        piket: "Feriza, Galih, Alya, Aini, Cata, Muza, Cipta",
+        status: "Hari aktif"
+      },
+      5: { 
+        seragam: "Pramuka", 
+        jadwal: "PABP, DPK", 
+        piket: "Fais, Latifa, Ayuk, Fitri, Lia, Felisa",
+        status: "Hari aktif"
+      },
+      0: { 
+        seragam: "Libur", 
+        jadwal: "Tidak ada jadwal", 
+        piket: "Tidak ada piket",
+        status: "Hari libur"
+      },
+      6: { 
+        seragam: "Libur", 
+        jadwal: "Tidak ada jadwal", 
+        piket: "Tidak ada piket",
+        status: "Hari libur"
+      }
+    };
+
+    let hariIni = new Date().getDay();
+    let info = data[hariIni] || { seragam: "-", jadwal: "-", piket: "-", status: "-" };
+
+    // Display warning info
+    document.getElementById("seragam-info").textContent = info.seragam;
+    document.getElementById("jadwal-info").textContent = info.jadwal;
+    document.getElementById("piket-info").textContent = info.piket;
+    document.getElementById("status-info").textContent = info.status;
+
+    // Tab navigation
+    document.querySelectorAll('.nav-tabs a').forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Scroll to target
+        const targetId = this.getAttribute('href');
+        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Scroll to top
+    document.querySelector('.scroll-top').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Show/hide scroll
+    window.addEventListener('scroll', function() {
+      const scrollTop = document.querySelector('.scroll-top');
+      const scrollPosition = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = (scrollPosition / documentHeight) * 100;
+      
+      // Update progress bar
+      document.querySelector('.progress-bar').style.width = `${scrollPercentage}%`;
+      
+      // Show/hide scroll to top button
+      if (scrollPosition > 300) {
+        scrollTop.classList.add('show');
+      } else {
+        scrollTop.classList.remove('show');
+      }
+      
+      // Highlight current day in navigation
+      const days = document.querySelectorAll('.schedule-day');
+      let currentDay = '';
+      
+      days.forEach(day => {
+        const rect = day.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          currentDay = day.id;
+        }
+      });
+      
+      document.querySelectorAll('.nav-tabs a').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('href') === `#${currentDay}`) {
+          tab.classList.add('active');
+        }
+      });
+    });
+
+    // Highlight current time in schedule
+    function highlightCurrentTime() {
+      const now = new Date();
+      const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert to minutes
+      
+      document.querySelectorAll('table tr').forEach(row => {
+        const timeCell = row.cells[1];
+        if (timeCell && timeCell.textContent.includes('-')) {
+          const [start, end] = timeCell.textContent.split('-');
+          const [startHour, startMinute] = start.split(':').map(Number);
+          const [endHour, endMinute] = end.split(':').map(Number);
+          
+          const startTime = startHour * 60 + startMinute;
+          const endTime = endHour * 60 + endMinute;
+          
+          if (currentTime >= startTime && currentTime <= endTime) {
+            row.classList.add('current-time');
+          } else {
+            row.classList.remove('current-time');
+          }
+        }
+      });
+    }
+    
+    setInterval(highlightCurrentTime, 60000); // Update every minute
+    highlightCurrentTime(); // Initial call
+    
+    // Add current day highlight
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const todayName = dayNames[hariIni];
+    const todayElement = document.getElementById(todayName);
+    if (todayElement) {
+      todayElement.classList.add('current-day');
+    }
+  </script>
+</body>
+</html>
